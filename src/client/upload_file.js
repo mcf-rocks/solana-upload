@@ -20,6 +20,7 @@ import fs from 'mz/fs'
 
 const FileType = require('file-type')
 
+import { sleep } from './sleep'
 import { keyPress } from './keyPress'
 import { makeChunks } from './chunks'
 
@@ -29,18 +30,20 @@ const SOLANA_TRAN_MAX_BYTES = 1232
 
 function getBytesRemaining() {
   const a = new Account()
+  const pay = new Account()
+  const prg = new Account()
   const i = new TransactionInstruction({
     keys: [
       {pubkey: a.publicKey, isSigner: true, isWritable: true},
     ],    
-    programId: a.publicKey,
+    programId: prg.publicKey,
     data: Buffer.alloc(0)
   })
   const dummy = new Transaction().add(i)
   dummy.recentBlockhash = '11111111111111111111111111111111'
-  dummy.sign(a)
+  dummy.sign(pay,a)
   const s = dummy.serialize()
-  return SOLANA_TRAN_MAX_BYTES - ( s.length + 64 + 1 + 1 )  // payer signature, an 8 bit index, and 1 for luck
+  return SOLANA_TRAN_MAX_BYTES - ( s.length + 2 )  // don't know where the 2 extra bytes come from
 }
 
 const CHUNKNUM_BYTE_COUNT = 2  // u16 int, which chunk
@@ -92,7 +95,7 @@ async function main() {
 
   // split our data across a number of calls
 
-  const remainingByteCount = getBytesRemaining()
+  const remainingByteCount = getBytesRemaining(s.programId)
 
   const dataByteCount = remainingByteCount - ( CHUNKNUM_BYTE_COUNT + CHUNKSIZE_BYTE_COUNT )
 
@@ -123,7 +126,7 @@ async function main() {
   console.log("Data Upload -- will require",chunks.length,"calls")
 
   for(let i=0; i<chunks.length;i++) {
-    const chunkCost = feeCalculator.lamportsPerSignature
+    const chunkCost = 2 * feeCalculator.lamportsPerSignature  // two signers, the payer and the new account
     console.log("Upload Call",i,"will upload",chunks[i].length,"bytes, costing:",chunkCost)
     costOfAccountUpload+=chunkCost
   }
@@ -182,6 +185,10 @@ async function main() {
   // UPLOAD DATA
   //++++++++++++++++
 
+  console.log("Let's wait")
+  await sleep(20000)
+  console.log("Let's continue")
+
   const balBeforeUpload = await connection.getBalance( ourAccount.publicKey )
 
   for( let i=0; i<chunks.length; i++) {
@@ -200,8 +207,6 @@ async function main() {
 
     const instruction_data = Buffer.concat( [ buffChunkNum, buffChunkSize, data ] )
 
-    //console.log("Size of buffer",i,"is",instruction_data.length)
-
     const balBeforeUploadChunk = await connection.getBalance( ourAccount.publicKey )
 
     const instruction = new TransactionInstruction({
@@ -214,20 +219,38 @@ async function main() {
 
     const transaction = new Transaction().add(instruction)
     transaction.recentBlockhash = (await connection.getRecentBlockhash('max')).blockhash
-    transaction.sign(uploadAccount)
+    transaction.sign(ourAccount,uploadAccount)
+    const raw = transaction.serialize()  
 
-    await sendAndConfirmTransaction(
-      'upload',
-      connection,
-      transaction,
-      ourAccount, 
-    )
+    let tSig
+    try {
+      tSig = await connection.sendRawTransaction( raw )
+    } catch(err) {
+      console.log("Send failed:",err)
+      process.exit(1)
+    }
+
+    //console.log("Transaction Signature:", tSig)
+
+    const tStatus = (
+      await connection.confirmTransaction(
+        tSig,
+        { confirmations: 1 },
+      )
+    ).value
+
+    if (tStatus) {
+      if (tStatus.err) {
+        console.log("Transaction failed:",tStatus.err)
+        process.exit(1)
+      }
+    }
 
     const balAfterUploadChunk = await connection.getBalance( ourAccount.publicKey )
 
     const costOfUploadChunk = balBeforeUploadChunk - balAfterUploadChunk
 
-    console.log("Cost of upload chunk",i,"was",costOfUploadChunk)
+    console.log("Cost of upload chunk",i,"was",costOfUploadChunk,"bytes in transaction:",raw.length)
   }
 
   const balAfterUpload = await connection.getBalance( ourAccount.publicKey )

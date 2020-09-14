@@ -1,7 +1,8 @@
 use byteorder::{ByteOrder, LittleEndian};
 
 use solana_sdk::{
-    log::*, account_info::AccountInfo, info, program_error::ProgramError, account_info::next_account_info, pubkey::Pubkey,
+    //log::*,
+    account_info::AccountInfo, info, program_error::ProgramError, account_info::next_account_info, pubkey::Pubkey,
     //entrypoint, entrypoint::ProgramResult, 
     entrypoint_deprecated, entrypoint_deprecated::ProgramResult,
 };
@@ -27,13 +28,17 @@ fn process_instruction<'a>(
 
     if target.owner != program_id {
         info!("Target account does not have the correct program id");
+        //info!("Target pubkey");
+        //info!(&format!("{:?}",target.key));
+        //info!("Target owner");
+        //info!(&format!("{:?}",target.owner));
         return Err(ProgramError::IncorrectProgramId);
     }
 
-//    if !target.is_signer {
-//      info!("Target account must be signer");
-//      return Err(ProgramError::MissingRequiredSignature);
-//    }
+    if !target.is_signer {
+      info!("Target account must be signer");
+      return Err(ProgramError::MissingRequiredSignature);
+    }
 
     // get chunk index...
 
