@@ -27,6 +27,10 @@ npm run balance
 npm run upload_file UK.png
 ```
 
+UK.png is a nice small file you can test on, before you upload that video that should never have been made.
+
+Remember to record the address (public key) of the upload account.
+
 ## To Download a File
 
 ```
@@ -45,7 +49,7 @@ The file will be in the top level of the project.
 
 1. Client code (JS) reads file into byte buffer.
 2. Creates account of same size on blockchain.
-3. Accounts are zero initiaqlised and can only be written via on-chain program
+3. Accounts are zero initialised and can only be written via on-chain program
 3. Solana has a 1232 transaction limit, therefore:
    a. Client calculates maximum data that can be crammed into one transaction,
    b. Splits data into X chunks,
@@ -53,13 +57,19 @@ The file will be in the top level of the project.
 
 NB: program ensures account is signer to prevent hijack, only client that created account can write.
 
-Download just reads the data fron the chain and writes it to a file.
- 
-## Troubleshooting
+WARNING: The client does each transaction sequentially (no reason, it could do them all in one go), consequently it will take a long time to upload a large file, if you run out of funds, get a powercut, accidentally ctrl-c, etc... it's dead, you need to start again. 
 
-To upload you must have sufficient funds on the keypair.json in the top level of the project.
+Download just reads the data from the chain and writes it to a file.
+ 
+## Troubleshooting and Warnings
+
+To upload you must have sufficient funds on the keypair.json in the top level of the project. The upload_file script will estimate the total cost, it asks you to press a key before it starts.
 
 There is a limit of how much data can be stored in an account, I think it's 10MB, but not really sure. 
+
+Technically if you have the secret key, you can overwrite, edit scripts as you wish.
+
+Nothing that happens because of this software is my responsibility.
 
 The following component combination works for a local docker node:
 
