@@ -80,7 +80,7 @@ Technically if you have the secret key, you can overwrite, edit scripts as you w
 
 Nothing that happens because of this software is my responsibility.
 
-The following component combination works for a local docker node:
++ The following component combination works for a local docker node:
 
 package.json
   "testnetDefaultChannel": "v1.3.9",
@@ -92,12 +92,13 @@ Cargo.toml
 Using the entrypoint_deprecated in lib.rs
 
 
-The following component combination works for mainnet:
++ The following component combination works for mainnet:
 
 package.json
   "testnetDefaultChannel": "v1.3.4",
   "@solana/web3.js": "^0.71.9",
 Using the BPF_LOADER_DEPRECATED_PROGRAM_ID in deploy.js
+
 Cargo.toml
   solana-sdk = { version = "=1.3.4", default-features = false }
 Using the entrypoint in lib.rs (!)
