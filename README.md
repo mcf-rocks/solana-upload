@@ -8,7 +8,11 @@ There is a bunch of stuff you need to setup to make this work. This is not a tut
 
 ## To Deploy the Program
 
-NB: You don't need to deploy the program, as I already have... if you just want to upload a file, go to the next section.
+NB: You don't need to deploy the program, as I already have... address is 5jSTGSbX8NsvZv2ZrqtTqgEBdQLRP1KCLai8j9fshzH5
+
+If you just want to upload a file, go to the next section.
+
+Deploy contract program:
 
 ```
 npm install
@@ -37,13 +41,16 @@ Remember to record the address (public key) of the upload account.
 npm run download_file <address>
 ```
 
-For example:
+For example this will get you the UK.png file:
 
 ```
-npm run download_file <TODO:>
+npm run download_file Ej7YU6LD8D2jvP2dNFHXiHq6x7CoS7r94RaZjCGKTYEG
 ```
 
 The file will be in the top level of the project.
+
+Also check out ya boi: tzz2AdP4kkdyebywvJfe6LCqSPwwYKBMYww3znSN8Bg
+
 
 ## How it Works
 
@@ -57,7 +64,9 @@ The file will be in the top level of the project.
 
 NB: program ensures account is signer to prevent hijack, only client that created account can write.
 
-WARNING: The client does each transaction sequentially (no reason, it could do them all in one go), consequently it will take a long time to upload a large file, if you run out of funds, get a powercut, accidentally ctrl-c, etc... it's dead, you need to start again. 
+WARNING: The client does each transaction sequentially (no real reason, except atm mainnet has rate limiting on the RPC node), consequently it will take a long time to upload a large file, if you run out of funds, get an internet outage, accidentally ctrl-c, etc... it's dead, you need to start again. 
+
+How long each transaction waits, is in upload_file.js, search for "impatient"
 
 Download just reads the data from the chain and writes it to a file.
  

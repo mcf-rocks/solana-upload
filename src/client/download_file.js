@@ -18,8 +18,6 @@ async function main() {
     process.exit(1);
   }
 
-  console.log("Lets look at account:",pubkey);
-
   let pk = new PublicKey(pubkey);
 
   const connection = await getNodeConnection()
@@ -30,8 +28,6 @@ async function main() {
     console.log("Account not found on chain");
     process.exit(1);
   }
-
-  console.log(account.data);
 
   let ftype = (await FileType.fromBuffer(account.data)).ext
 

@@ -185,7 +185,7 @@ async function main() {
   // UPLOAD DATA
   //++++++++++++++++
 
-  console.log("Let's wait")
+  console.log("Let us pray")   // on docker, you get problems without this ...
   await sleep(20000)
   console.log("Let's continue")
 
@@ -232,17 +232,27 @@ async function main() {
 
     //console.log("Transaction Signature:", tSig)
 
-    const tStatus = (
-      await connection.confirmTransaction(
-        tSig,
-        { confirmations: 1 },
-      )
-    ).value
+    const impatient = true
 
-    if (tStatus) {
-      if (tStatus.err) {
-        console.log("Transaction failed:",tStatus.err)
-        process.exit(1)
+    if ( impatient ) {
+
+      await sleep(1500)
+
+    } else {
+
+      const tStatus = (
+        await connection.confirmTransaction(
+          tSig,
+          //{ confirmations: 1 }, // https://solana-labs.github.io/solana-web3.js/typedef/index.html#static-typedef-Commitment
+          { confirmations: 'singleGossip' },
+        )
+      ).value
+
+      if (tStatus) {
+        if (tStatus.err) {
+          console.log("Transaction failed:",tStatus.err)
+          process.exit(1)
+        }
       }
     }
 

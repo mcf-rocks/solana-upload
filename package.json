@@ -9,7 +9,7 @@
   "keywords": [],
   "author": "",
   "license": "MIT",
-  "testnetDefaultChannel": "v1.3.9",
+  "testnetDefaultChannel": "v1.3.4",
   "scripts": {
     "update_docker": "solana-localnet update",
     "start_docker": ". start_docker",
@@ -57,7 +57,7 @@
     "prettier": "^2.1.1"
   },
   "dependencies": {
-    "@solana/web3.js": "^0.73.0",
+    "@solana/web3.js": "^0.71.9",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-eslint": "^10.0.1",

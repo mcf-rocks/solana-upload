@@ -3,14 +3,14 @@ use byteorder::{ByteOrder, LittleEndian};
 use solana_sdk::{
     //log::*,
     account_info::AccountInfo, info, program_error::ProgramError, account_info::next_account_info, pubkey::Pubkey,
-    //entrypoint, entrypoint::ProgramResult, 
-    entrypoint_deprecated, entrypoint_deprecated::ProgramResult,
+    entrypoint, entrypoint::ProgramResult, 
+    //entrypoint_deprecated, entrypoint_deprecated::ProgramResult,
 };
 
 
 // Declare and export the program's entrypoint
-//entrypoint!(process_instruction);
-entrypoint_deprecated!(process_instruction);
+entrypoint!(process_instruction);
+//entrypoint_deprecated!(process_instruction);
 
 
 // Program entrypoint's implementation
