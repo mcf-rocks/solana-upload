@@ -89,7 +89,7 @@ Using the BPF_LOADER_DEPRECATED_PROGRAM_ID in deploy.js
 
 Cargo.toml
   solana-sdk = { version = "=1.3.9", default-features = false }
-Using the entrypoint_deprecated in lib.rs
+  Using the entrypoint_deprecated in lib.rs
 
 
 ** The following component combination works for mainnet:
@@ -97,9 +97,9 @@ Using the entrypoint_deprecated in lib.rs
 package.json
   "testnetDefaultChannel": "v1.3.4",
   "@solana/web3.js": "^0.71.9",
-Using the BPF_LOADER_DEPRECATED_PROGRAM_ID in deploy.js
+  Using the BPF_LOADER_DEPRECATED_PROGRAM_ID in deploy.js
 
 Cargo.toml
   solana-sdk = { version = "=1.3.4", default-features = false }
-Using the entrypoint in lib.rs (!)
+  Using the entrypoint in lib.rs (!)
 
