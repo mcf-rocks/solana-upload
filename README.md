@@ -2,7 +2,7 @@
 
 Upload a file to the Solana blockchain, download a file from the Solana blockchain.
 
-WARNING: pointing at mainnet.
+WARNING: already pointing at mainnet. Can change with "npm run cluster_local" / "npm run cluster_mainnet" -- see notes at end.
 
 There is a bunch of stuff you need to setup to make this work. This is not a tutorial, but there is a [Solana dapp tutorial here](https://medium.com/@smith_10562/a-simple-solana-dapp-tutorial-6dedbdf65444)
 
@@ -85,9 +85,20 @@ The following component combination works for a local docker node:
 package.json
   "testnetDefaultChannel": "v1.3.9",
   "@solana/web3.js": "^0.73.0",
+Using the BPF_LOADER_DEPRECATED_PROGRAM_ID in deploy.js
+
 Cargo.toml
   solana-sdk = { version = "=1.3.9", default-features = false }
-Using the BPF_LOADER_DEPRECATED_PROGRAM_ID in deploy.js
 Using the entrypoint_deprecated in lib.rs
 
+
+The following component combination works for mainnet:
+
+package.json
+  "testnetDefaultChannel": "v1.3.4",
+  "@solana/web3.js": "^0.71.9",
+Using the BPF_LOADER_DEPRECATED_PROGRAM_ID in deploy.js
+Cargo.toml
+  solana-sdk = { version = "=1.3.4", default-features = false }
+Using the entrypoint in lib.rs (!)
 
