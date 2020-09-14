@@ -49,8 +49,8 @@ npm run download_file Ej7YU6LD8D2jvP2dNFHXiHq6x7CoS7r94RaZjCGKTYEG
 
 The file will be in the top level of the project.
 
-Also check out ya boi: tzz2AdP4kkdyebywvJfe6LCqSPwwYKBMYww3znSN8Bg
-And ya boi's sunflower: BHhRmkamZH2jNRPNWoAWxXkzajuExUJPTtEwdBfa1K4c
+- Also check out ya boi: tzz2AdP4kkdyebywvJfe6LCqSPwwYKBMYww3znSN8Bg
+- And ya boi's sunflower: BHhRmkamZH2jNRPNWoAWxXkzajuExUJPTtEwdBfa1K4c
 
 ## How it Works
 
