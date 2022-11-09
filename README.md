@@ -52,6 +52,12 @@ The file will be in the top level of the project.
 - Also check out ya boi: tzz2AdP4kkdyebywvJfe6LCqSPwwYKBMYww3znSN8Bg
 - And ya boi's sunflower: BHhRmkamZH2jNRPNWoAWxXkzajuExUJPTtEwdBfa1K4c
 
+Or directly:
+
+```
+solana -um account tzz2AdP4kkdyebywvJfe6LCqSPwwYKBMYww3znSN8Bg --output json | jq -r .account.data[0] | base64 -d > mcf.jpg && xdg-open mcf.jpg
+```
+
 ## How it Works
 
 1. Client code (JS) reads file into byte buffer.
